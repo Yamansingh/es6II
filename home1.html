@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home 1</title>
+    <style>
+        #search-box{
+            width: 400px;
+            margin: auto;
+            display: flex;
+
+        }
+        #search-box input{
+            width: 300px;
+        }
+        #search-box button{
+            width: 100px;
+        }
+          #img >img{
+            width: 150px;
+            margin: auto
+            
+        }
+          #img{
+              width: 150px;
+              margin: auto;
+              text-align: center;
+          }
+          #data{
+              width: 38vw;
+              margin:  20px auto;
+              min-height: 50px;
+              background-color: rgb(247, 204, 204);
+              border-radius: 10px;
+             
+          }
+          #anchor{
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        margin: 15px;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>  <div id="img"> 
+       <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="">
+         </div>
+       <div id="search-box">
+         
+          <input type="text" placeholder="search" id="query">
+          <button onclick="search()">Search</button>
+      </div>
+       <div id="data"></div>
+</body>
+</html>
+<script>
+    async function search(){
+          let q = document.getElementById("query")
+          let res = await fetch(`http://api.serpstack.com/search?access_key=e8b6265dd8b30c1c11ee2136d5833780&query=${q}`)
+          let data = await res.json()
+          console.log(data)
+            append(data)
+         
+
+   }
+
+
+       
+    function append(data){
+        let parent = document.getElementById('data');   
+        let d = data.organic_results;
+
+        console.log(d);
+
+        d.forEach(el => {
+            let a = document.createElement('a');
+            a.setAttribute('id','anchor');
+            var link = document.createTextNode(el.displayed_url);
+            a.appendChild(link);
+            a.href = el.url;
+            parent.append(a);
+            //console.log(el.position);
+        });
+    }
+
+</script>
